@@ -105,6 +105,12 @@ def my_sobel(slika):
 
     return slika_robov
 
+
+def canny(slika, sp_prag, zg_prag):
+    slika_robov=cv2.Canny(slika,sp_prag,zg_prag)
+    return slika_robov 
+
+
 img = cv2.imread("lenna.png",0) 
 cv2.imshow("Pokazi sliko ",img)
 
@@ -123,8 +129,13 @@ novaSlika=spremeni_kontrast(img,2,10)
 #prewitt=my_prewitt(novaSlika)
 #cv2.imshow("prewitt",prewitt)
 
-sobel = my_sobel(novaSlika)
-cv2.imshow("Sobel",sobel)
+#sobel = my_sobel(novaSlika)
+#cv2.imshow("Sobel",sobel)
+
+Lower=20
+Upper=70
+Can=canny(novaSlika,10,100)
+cv2.imshow("canny filter",Can)
 
 #eh=overlay_edges(img,prewitt,0.5)
 #cv2.imshow("EH",eh)
