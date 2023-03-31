@@ -3,15 +3,15 @@ import numpy as np
 
  #Pomoč pri implementaciji filtrov je bil Chat-GPT
 
-def overlay_edges(original_img, prewitt_img, alpha):
-    # Convert prewitt image to 3 channels
-    prewitt_img = cv2.cvtColor(prewitt_img, cv2.COLOR_GRAY2BGR)
-    # Create a red color mask for the edges
-    mask = np.zeros_like(prewitt_img)
-    mask[prewitt_img > 0] = (0, 0, 255)
-    # Overlay the edges onto the original image using alpha blending
-    blended_img = cv2.addWeighted(original_img, alpha, mask, 1-alpha, 0)
-    return blended_img
+#def overlay_edges(original_img, prewitt_img, alpha):
+#    # Convert prewitt image to 3 channels
+#    prewitt_img = cv2.cvtColor(prewitt_img, cv2.COLOR_GRAY2BGR)
+#    # Create a red color mask for the edges
+#    mask = np.zeros_like(prewitt_img)
+#    mask[prewitt_img > 0] = (0, 0, 255)
+#    # Overlay the edges onto the original image using alpha blending
+#    blended_img = cv2.addWeighted(original_img, alpha, mask, 1-alpha, 0)
+#    return blended_img
 
 
 
