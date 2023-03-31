@@ -33,12 +33,14 @@ def my_roberts(slika):
 
     # Normalize the magnitude to [0, 1]
     roberts_amplituda /= np.max(roberts_amplituda)
-
-    return roberts_amplituda
+    slika_robov=roberts_amplituda
+    return slika_robov
 
 
 img = cv2.imread("lenna.png",0) 
 cv2.imshow("Pokazi sliko ",img)
+
+novaSlika=spremeni_kontrast(img,3,5)
 
 #Roberts algorithm
 roberts = my_roberts(img)
