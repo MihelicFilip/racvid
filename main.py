@@ -3,6 +3,18 @@ import numpy as np
 
  #Pomoč pri implementaciji filtrov je bil Chat-GPT
 
+def overlay_edges(original_img, prewitt_img, alpha):
+    # Convert prewitt image to 3 channels
+    prewitt_img = cv2.cvtColor(prewitt_img, cv2.COLOR_GRAY2BGR)
+    # Create a red color mask for the edges
+    mask = np.zeros_like(prewitt_img)
+    mask[prewitt_img > 0] = (0, 0, 255)
+    # Overlay the edges onto the original image using alpha blending
+    blended_img = cv2.addWeighted(original_img, alpha, mask, 1-alpha, 0)
+    return blended_img
+
+
+
 def spremeni_kontrast(slika, alfa, beta):
     # Scale the pixel values based on the contrast and brightness
     spremenjena_slika = alfa * slika + beta
@@ -34,6 +46,7 @@ def my_roberts(slika):
     # Normalize the magnitude to [0, 1]
     roberts_amplituda /= np.max(roberts_amplituda) #Poskrbimo da ostanejo vrednosti med 0 in 1 
     slika_robov=roberts_amplituda
+
     return slika_robov
 
 def my_prewitt(slika):
@@ -66,13 +79,28 @@ cv2.imshow("Pokazi sliko ",img)
 novaSlika=spremeni_kontrast(img,2,10)
 
 #Roberts algorithm
-#roberts = my_roberts(img)
-#cv2.imshow("Primerjava roberts ", roberts)
+roberts = my_roberts(img)
+cv2.imshow("Roberts ",roberts)
 
-prewittG=my_prewitt(novaSlika)
-prewitt=my_prewitt(img)
-cv2.imshow("prewitt na spremenjeni sliki",prewittG)
-cv2.imshow("prewitt na greyscale",prewitt)
+#lol=merge_images(img,roberts)
+
+#cv2.imshow("Roboviiii",lol)
+
+# show the result
+#prewittG=my_prewitt(novaSlika)
+prewitt=my_prewitt(novaSlika)
+cv2.imshow("prewitt",prewitt)
+#eh=overlay_edges(img,prewitt,0.5)
+#cv2.imshow("EH",eh)
+
+#overlay_color = (0, 0, 255) # Set the color to red (BGR format)
+#neke_gray = cv2.cvtColor(prewitt, cv2.COLOR_GRAY2BGR) # Convert edges to BGR format
+#neke_gray[prewitt > 0] = overlay_color # Replace the edges with the red color
+#neke = cv2.addWeighted(img, alpha, prewitt, alpha-1.0, 0)
+
+
+#cv2.imshow("Robovi",neke)
+
 
 
 
