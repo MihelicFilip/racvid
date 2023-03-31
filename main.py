@@ -148,9 +148,5 @@ cv2.imshow("canny filter",Can)
 
 #cv2.imshow("Robovi",neke)
 
-
-
-
-
 cv2.waitKey()
 cv2.destroyAllWindows()
