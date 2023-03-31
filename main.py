@@ -1,28 +1,10 @@
 import cv2
 import numpy as np
 
- #Pomoč pri implementaciji filtrov je bil Chat-GPT
+ #Pri implementaciji algoritmov je bil uporabljen Chat-GPT
 
-def overlay_edges(original_img, prewitt_img, alpha):
-    # Convert prewitt image to 3 channels
-    prewitt_img = cv2.cvtColor(prewitt_img, cv2.COLOR_GRAY2BGR)
-    # Create a red color mask for the edges
-    mask = np.zeros_like(prewitt_img)
-    mask[prewitt_img > 0] = (0, 0, 255)
-    # Overlay the edges onto the original image using alpha blending
-    blended_img = cv2.addWeighted(original_img, alpha, mask, 1-alpha, 0)
-    return blended_img
-
-
-
-def spremeni_kontrast(slika, alfa, beta):
-    # Scale the pixel values based on the contrast and brightness
-    spremenjena_slika = alfa * slika + beta
-    # Clip the pixel values to ensure they stay within the valid range
-    spremenjena_slika = np.clip(spremenjena_slika, 0, 255)
-    # Convert the adjusted NumPy array back to a 2D NumPy array and return it
-    spremenjena_slika = spremenjena_slika.astype(np.uint8)
-    return spremenjena_slika
+img = cv2.imread("lenna.png",0) 
+cv2.imshow("Pokazi sliko ",img)
 
 
 def my_roberts(slika):
