@@ -71,7 +71,39 @@ def my_prewitt(slika):
     
     return slika_robov
 
+def my_sobel(slika):
+    sobel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]) #horizontalni robovi
+    sobel_y = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]]) #vertikalni robovi
 
+    # Get image dimensions
+    height, width = slika.shape
+
+    # Initialize output image
+    slika_robov = np.zeros((height, width)) # Slika v katero shranjujemo magnitude gradientov 
+
+    # Apply Sobel filter using for loops
+    for i in range(1, height - 1):
+        for j in range(1, width - 1): #Gremo skozi vse piksle in uporabimo Euclideanovo enacbo za racunanje magnitude gradientov 
+            # Calculate gradients
+            gx = (sobel_x[0][0] * slika[i-1][j-1]) + (sobel_x[0][1] * slika[i-1][j]) + \
+                 (sobel_x[0][2] * slika[i-1][j+1]) + (sobel_x[1][0] * slika[i][j-1]) + \
+                 (sobel_x[1][1] * slika[i][j]) + (sobel_x[1][2] * slika[i][j+1]) + \
+                 (sobel_x[2][0] * slika[i+1][j-1]) + (sobel_x[2][1] * slika[i+1][j]) + \
+                 (sobel_x[2][2] * slika[i+1][j+1])
+
+            gy = (sobel_y[0][0] * slika[i-1][j-1]) + (sobel_y[0][1] * slika[i-1][j]) + \
+                 (sobel_y[0][2] * slika[i-1][j+1]) + (sobel_y[1][0] * slika[i][j-1]) + \
+                 (sobel_y[1][1] * slika[i][j]) + (sobel_y[1][2] * slika[i][j+1]) + \
+                 (sobel_y[2][0] * slika[i+1][j-1]) + (sobel_y[2][1] * slika[i+1][j]) + \
+                 (sobel_y[2][2] * slika[i+1][j+1])
+
+            # Compute gradient magnitude
+            slika_robov[i][j] = np.sqrt(gx**2 + gy**2) #Izracunamo magnitudo gradienta za vsak pixel na i,j poziciji
+
+    # Normalize output image
+    slika_robov = cv2.normalize(slika_robov, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+
+    return slika_robov
 
 img = cv2.imread("lenna.png",0) 
 cv2.imshow("Pokazi sliko ",img)
@@ -79,8 +111,8 @@ cv2.imshow("Pokazi sliko ",img)
 novaSlika=spremeni_kontrast(img,2,10)
 
 #Roberts algorithm
-roberts = my_roberts(img)
-cv2.imshow("Roberts ",roberts)
+#roberts = my_roberts(img)
+#cv2.imshow("Roberts ",roberts)
 
 #lol=merge_images(img,roberts)
 
@@ -88,8 +120,12 @@ cv2.imshow("Roberts ",roberts)
 
 # show the result
 #prewittG=my_prewitt(novaSlika)
-prewitt=my_prewitt(novaSlika)
-cv2.imshow("prewitt",prewitt)
+#prewitt=my_prewitt(novaSlika)
+#cv2.imshow("prewitt",prewitt)
+
+sobel = my_sobel(novaSlika)
+cv2.imshow("Sobel",sobel)
+
 #eh=overlay_edges(img,prewitt,0.5)
 #cv2.imshow("EH",eh)
 
