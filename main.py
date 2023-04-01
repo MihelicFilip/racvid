@@ -13,7 +13,12 @@ import numpy as np
 #    blended_img = cv2.addWeighted(original_img, alpha, mask, 1-alpha, 0)
 #    return blended_img
 
-
+def Overlay(slikaOrg, Robovi):
+    slika_robov = np.zeros((slikaOrg.shape[0], slikaOrg.shape[1], 3), np.uint8)
+    slikaBarva = cv2.cvtColor(slikaOrg, cv2.COLOR_GRAY2BGR)
+    slika_robov[:, :, 1] = Robovi
+    slika_robov = cv2.addWeighted(slikaBarva, 0.4, slika_robov, 1.4, 3)
+    return slika_robov
 
 def spremeni_kontrast(slika, alfa, beta):
     # Scale the pixel values based on the contrast and brightness
@@ -126,7 +131,7 @@ novaSlika=spremeni_kontrast(img,0.5,10)
 
 # show the result
 #prewittG=my_prewitt(novaSlika)
-#prewitt=my_prewitt(novaSlika)
+prewitt=my_prewitt(novaSlika)
 #cv2.imshow("prewitt",prewitt)
 
 #sobel = my_sobel(novaSlika)
@@ -135,10 +140,10 @@ novaSlika=spremeni_kontrast(img,0.5,10)
 Lower=20
 Upper=70
 Can=canny(novaSlika,10,100)
-cv2.imshow("canny filter",Can)
+cv2.imshow("canny filter",prewitt)
 
-#eh=overlay_edges(img,prewitt)
-#cv2.imshow("EH",eh)
+over=Overlay(img,prewitt)
+cv2.imshow("overlayed edges",over)
 Gauss= cv2.GaussianBlur(novaSlika,(5,5),10)
 cv2.imshow("Gauss ",Gauss)
 prewitt2=my_prewitt(Gauss)
