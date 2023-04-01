@@ -13,12 +13,6 @@ import numpy as np
 #    blended_img = cv2.addWeighted(original_img, alpha, mask, 1-alpha, 0)
 #    return blended_img
 
-def Overlay(slikaOrg, Robovi):
-    slika_robov = np.zeros((slikaOrg.shape[0], slikaOrg.shape[1], 3), np.uint8)
-    slikaBarva = cv2.cvtColor(slikaOrg, cv2.COLOR_GRAY2BGR)
-    slika_robov[:, :, 1] = Robovi
-    slika_robov = cv2.addWeighted(slikaBarva, 0.4, slika_robov, 1.4, 3)
-    return slika_robov
 
 
 def spremeni_kontrast(slika, alfa, beta):
@@ -120,7 +114,7 @@ def canny(slika, sp_prag, zg_prag):
 img = cv2.imread("lenna.png",0) 
 cv2.imshow("Pokazi sliko ",img)
 
-novaSlika=spremeni_kontrast(img,0.5,10)
+novaSlika=spremeni_kontrast(img,2,10)
 
 #Roberts algorithm
 #roberts = my_roberts(img)
@@ -132,7 +126,7 @@ novaSlika=spremeni_kontrast(img,0.5,10)
 
 # show the result
 #prewittG=my_prewitt(novaSlika)
-prewitt=my_prewitt(novaSlika)
+#prewitt=my_prewitt(novaSlika)
 #cv2.imshow("prewitt",prewitt)
 
 #sobel = my_sobel(novaSlika)
@@ -143,14 +137,8 @@ Upper=70
 Can=canny(novaSlika,10,100)
 cv2.imshow("canny filter",Can)
 
-#eh=Overlay(img,prewitt)
+#eh=overlay_edges(img,prewitt,0.5)
 #cv2.imshow("EH",eh)
-
-Gauss= cv2.GaussianBlur(novaSlika,(5,5),10)
-cv2.imshow("Gauss ",Gauss)
-prewitt2=my_prewitt(Gauss)
-cv2.imshow("Gauss na sliki pred prewitt",prewitt2)
-
 
 #overlay_color = (0, 0, 255) # Set the color to red (BGR format)
 #neke_gray = cv2.cvtColor(prewitt, cv2.COLOR_GRAY2BGR) # Convert edges to BGR format
