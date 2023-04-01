@@ -114,7 +114,7 @@ def canny(slika, sp_prag, zg_prag):
 img = cv2.imread("lenna.png",0) 
 cv2.imshow("Pokazi sliko ",img)
 
-novaSlika=spremeni_kontrast(img,2,10)
+novaSlika=spremeni_kontrast(img,0.5,10)
 
 #Roberts algorithm
 #roberts = my_roberts(img)
@@ -137,8 +137,12 @@ Upper=70
 Can=canny(novaSlika,10,100)
 cv2.imshow("canny filter",Can)
 
-#eh=overlay_edges(img,prewitt,0.5)
+#eh=overlay_edges(img,prewitt)
 #cv2.imshow("EH",eh)
+Gauss= cv2.GaussianBlur(novaSlika,(5,5),10)
+cv2.imshow("Gauss ",Gauss)
+prewitt2=my_prewitt(Gauss)
+cv2.imshow("Gauss na sliki pred prewitt",prewitt2)
 
 #overlay_color = (0, 0, 255) # Set the color to red (BGR format)
 #neke_gray = cv2.cvtColor(prewitt, cv2.COLOR_GRAY2BGR) # Convert edges to BGR format
