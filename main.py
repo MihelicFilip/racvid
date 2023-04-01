@@ -24,6 +24,12 @@ def spremeni_kontrast(slika, alfa, beta):
     spremenjena_slika = spremenjena_slika.astype(np.uint8)
     return spremenjena_slika
 
+def Overlay(slikaOrg, Robovi):
+    slika_robov = np.zeros((slikaOrg.shape[0], slikaOrg.shape[1], 3), np.uint8)
+    slikaBarva = cv2.cvtColor(slikaOrg, cv2.COLOR_GRAY2BGR)
+    slika_robov[:, :, 1] = Robovi
+    slika_robov = cv2.addWeighted(slikaBarva, 0.4, slika_robov, 1.4, 3)
+    return slika_robov
 
 def my_roberts(slika):
 # Define the horizontal and vertical Roberts Cross kernels
@@ -114,10 +120,11 @@ def canny(slika, sp_prag, zg_prag):
 img = cv2.imread("lenna.png",0) 
 cv2.imshow("Pokazi sliko ",img)
 
-novaSlika=spremeni_kontrast(img,0.5,10)
+novaSlika=spremeni_kontrast(img,1.5,30)
+cv2.imshow("Pokazi sliko kontrast",novaSlika)
 
 #Roberts algorithm
-#roberts = my_roberts(img)
+roberts = my_roberts(img)
 #cv2.imshow("Roberts ",roberts)
 
 #lol=merge_images(img,roberts)
@@ -126,7 +133,7 @@ novaSlika=spremeni_kontrast(img,0.5,10)
 
 # show the result
 #prewittG=my_prewitt(novaSlika)
-#prewitt=my_prewitt(novaSlika)
+prewitt=my_prewitt(novaSlika)
 #cv2.imshow("prewitt",prewitt)
 
 #sobel = my_sobel(novaSlika)
@@ -137,8 +144,8 @@ Upper=70
 Can=canny(novaSlika,10,100)
 cv2.imshow("canny filter",Can)
 
-#eh=overlay_edges(img,prewitt)
-#cv2.imshow("EH",eh)
+over=Overlay(img,Can)
+cv2.imshow("Overlayed edges",over)
 Gauss= cv2.GaussianBlur(novaSlika,(5,5),10)
 cv2.imshow("Gauss ",Gauss)
 prewitt2=my_prewitt(Gauss)
