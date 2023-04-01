@@ -3,12 +3,16 @@ import numpy as np
 
  #Pomoč pri implementaciji filtrov je bil Chat-GPT
 
-def Overlay(slikaOrg, Robovi):
-    slika_robov = np.zeros((slikaOrg.shape[0], slikaOrg.shape[1], 3), np.uint8)
-    slikaBarva = cv2.cvtColor(slikaOrg, cv2.COLOR_GRAY2BGR)
-    slika_robov[:, :, 1] = Robovi
-    slika_robov = cv2.addWeighted(slikaBarva, 0.4, slika_robov, 1.4, 3)
-    return slika_robov
+#def overlay_edges(original_img, prewitt_img, alpha):
+#    # Convert prewitt image to 3 channels
+#    prewitt_img = cv2.cvtColor(prewitt_img, cv2.COLOR_GRAY2BGR)
+#    # Create a red color mask for the edges
+#    mask = np.zeros_like(prewitt_img)
+#    mask[prewitt_img > 0] = (0, 0, 255)
+#    # Overlay the edges onto the original image using alpha blending
+#    blended_img = cv2.addWeighted(original_img, alpha, mask, 1-alpha, 0)
+#    return blended_img
+
 
 
 def spremeni_kontrast(slika, alfa, beta):
@@ -23,7 +27,6 @@ def spremeni_kontrast(slika, alfa, beta):
 
 def my_roberts(slika):
 # Define the horizontal and vertical Roberts Cross kernels
-
     r1 = np.array([[1,0],[0,-1]]) #2x2 kerneli . r1 je za navpične robove
     r2 = np.array([[0,1],[-1,0]]) #r2 za vodoravne 
 
@@ -43,6 +46,7 @@ def my_roberts(slika):
     # Normalize the magnitude to [0, 1]
     roberts_amplituda /= np.max(roberts_amplituda) #Poskrbimo da ostanejo vrednosti med 0 in 1 
     slika_robov=roberts_amplituda
+
     return slika_robov
 
 def my_prewitt(slika):
@@ -110,11 +114,10 @@ def canny(slika, sp_prag, zg_prag):
 img = cv2.imread("lenna.png",0) 
 cv2.imshow("Pokazi sliko ",img)
 
-novaSlika=spremeni_kontrast(img,0.5,10)
-cv2.imshow("Pokazi sliko ",novaSlika)
+novaSlika=spremeni_kontrast(img,2,10)
 
 #Roberts algorithm
-#roberts = my_roberts(novaSlika)
+#roberts = my_roberts(img)
 #cv2.imshow("Roberts ",roberts)
 
 #lol=merge_images(img,roberts)
@@ -123,7 +126,7 @@ cv2.imshow("Pokazi sliko ",novaSlika)
 
 # show the result
 #prewittG=my_prewitt(novaSlika)
-#prewitt=my_prewitt(img)
+#prewitt=my_prewitt(novaSlika)
 #cv2.imshow("prewitt",prewitt)
 
 #sobel = my_sobel(novaSlika)
@@ -131,17 +134,11 @@ cv2.imshow("Pokazi sliko ",novaSlika)
 
 Lower=20
 Upper=70
-#Can=canny(novaSlika,10,100)
-#cv2.imshow("canny filter",Can)
+Can=canny(novaSlika,10,100)
+cv2.imshow("canny filter",Can)
 
-
-#eh=Overlay(img,Can)
+#eh=overlay_edges(img,prewitt,0.5)
 #cv2.imshow("EH",eh)
-
-Gauss= cv2.GaussianBlur(novaSlika,(5,5),10)
-cv2.imshow("Gauss ",Gauss)
-prewitt2=my_prewitt(Gauss)
-cv2.imshow("Gauss na sliki pred prewitt",prewitt2)
 
 #overlay_color = (0, 0, 255) # Set the color to red (BGR format)
 #neke_gray = cv2.cvtColor(prewitt, cv2.COLOR_GRAY2BGR) # Convert edges to BGR format
