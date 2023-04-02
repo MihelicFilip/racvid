@@ -112,7 +112,7 @@ novaSlika=spremeni_kontrast(img,0.5,10)
 
 # show the result
 #prewittG=my_prewitt(novaSlika)
-prewitt=my_prewitt(novaSlika)
+#prewitt=my_prewitt(novaSlika)
 #cv2.imshow("prewitt",prewitt)
 
 #sobel = my_sobel(novaSlika)
@@ -121,9 +121,9 @@ prewitt=my_prewitt(novaSlika)
 Lower=20
 Upper=70
 Can=canny(novaSlika,10,100)
-cv2.imshow("canny filter",prewitt)
+cv2.imshow("canny filter",Can)
 
-over=Overlay(img,prewitt)
+over=Overlay(img,Can)
 cv2.imshow("overlayed edges",over)
 Gauss= cv2.GaussianBlur(novaSlika,(5,5),10)
 cv2.imshow("Gauss ",Gauss)
